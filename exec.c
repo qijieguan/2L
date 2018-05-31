@@ -66,6 +66,8 @@ exec(char *path, char **argv)
   //sz = PGROUNDUP(sz);
   if((stackSpot = allocuvm(pgdir, PGROUNDDOWN(KERNBASE - 1), KERNBASE - 1)) == 0) // CS 153
     goto bad;
+  
+  uint stackSize = 1; // CS 153
   //if((sz = allocuvm(pgdir, sz, sz + PGSIZE)) == 0) // CS 153 DON'T NEED INACCESSIBLE PAGE
     //goto bad;
   //clearpteu(pgdir, (char*)(sz - PGSIZE)); // CS 153
@@ -101,6 +103,7 @@ exec(char *path, char **argv)
   curproc->pgdir = pgdir;
   curproc->sz = sz;
   curproc->stackSpot = stackSpot; // CS 153
+  curproc->stackSize = stackSize; // CS 153
   curproc->tf->eip = elf.entry;  // main
   curproc->tf->esp = sp;
   switchuvm(curproc);
