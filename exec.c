@@ -66,7 +66,7 @@ exec(char *path, char **argv)
   if((sz = allocuvm(pgdir, PGROUNDDOWN(KERNBASE - 1), KERNBASE - 1)) == 0) // CS 153
     goto bad;
   //clearpteu(pgdir, (char*)(sz - 2*PGSIZE));
-  sp = sz;
+  sp = stackSpot; //CS 153
 
   // Push argument strings, prepare rest of stack in ustack.
   for(argc = 0; argv[argc]; argc++) {
@@ -97,6 +97,7 @@ exec(char *path, char **argv)
   oldpgdir = curproc->pgdir;
   curproc->pgdir = pgdir;
   curproc->sz = sz;
+  currproc->stackSpot = stackSpot; //CS 153
   curproc->tf->eip = elf.entry;  // main
   curproc->tf->esp = sp;
   switchuvm(curproc);
