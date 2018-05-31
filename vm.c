@@ -336,7 +336,7 @@ copyuvm(pde_t *pgdir, uint sz)
       goto bad;
   }
   
-  for(i = stackSize; i < stackSpot; i += PGSIZE){ // CS 153
+  for(i = (stackSpot - stackSize*PGSIZE); i < stackSpot; i += PGSIZE){ // CS 153
     if((pte = walkpgdir(pgdir, (void *) i, 0)) == 0)
       panic("copyuvm: pte should exist");
     if(!(*pte & PTE_P))
