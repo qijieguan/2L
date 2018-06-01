@@ -7,7 +7,7 @@
 #include "x86.h"
 #include "traps.h"
 #include "spinlock.h"
-#include<iostream>
+#include <iostream>
 
 using namespace std;
 
