@@ -86,7 +86,7 @@ trap(struct trapframe *tf)
     {
     int addrAccessed;
     addrAccessed = rcr2(); // the address that was accessed and caused a page fault
-    uint stackEnd = (PGROUNDUP(myproc()->stackSpot)/PGSIZE) - myproc()->stackSize);
+    uint stackEnd = (PGROUNDUP(myproc()->stackSpot)/PGSIZE) - myproc()->stackSize;
     uint stackNew = (PGROUNDUP(addrAccessed)/PGSIZE);
     cprintf("stackEnd = %d\n", stackEnd);
     cprintf("stackNew = %d\n", stackNew);
