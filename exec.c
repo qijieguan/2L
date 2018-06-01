@@ -71,7 +71,7 @@ exec(char *path, char **argv)
   //if((sz = allocuvm(pgdir, sz, sz + PGSIZE)) == 0) // CS 153 DON'T NEED INACCESSIBLE PAGE
     //goto bad;
   //clearpteu(pgdir, (char*)(sz - PGSIZE)); // CS 153
-  sp = stackSpot; // CS 153
+  sp = sz; // CS 153
 
   // Push argument strings, prepare rest of stack in ustack.
   for(argc = 0; argv[argc]; argc++) {
