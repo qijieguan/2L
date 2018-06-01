@@ -1,7 +1,7 @@
 #include "types.h"
 #include "stat.h"
 #include "user.h"
-#include "conio.h"
+#include "defs.h"
 
 int fib(int n)
 {
