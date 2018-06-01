@@ -1,7 +1,6 @@
 #include "types.h"
 #include "stat.h"
 #include "user.h"
-#include "defs.h"
 
 int fib(int n)
 {
@@ -17,8 +16,7 @@ int main(int argc, char *argv[])
    int pid=0;
    pid=fork();
    if(pid==0){
-       uint fibn = 1;
-       cprintf("fib of %d is %d", fibn, fib(fibn));
+       fib(27);
        exit();
    }
    wait();
