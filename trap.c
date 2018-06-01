@@ -90,6 +90,8 @@ trap(struct trapframe *tf)
     uint stackNew = (PGROUNDUP(rcr2())/PGSIZE);
     cprintf("stackEnd = %d\n", stackEnd);
     cprintf("stackNew = %d\n", stackNew);
+    cprintf("rcr2() = %d\n", rcr2());
+
     if (stackEnd != stackNew)
     {// error // default code
       cprintf("go to default");
@@ -116,7 +118,7 @@ trap(struct trapframe *tf)
     myproc()->stackSize++;
     cprintf("A page was added to the stack.\n");
     cprintf("The stackSize is now %d\n", myproc()->stackSize);
-    yield();
+    
     break;
   }
   
