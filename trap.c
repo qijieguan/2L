@@ -82,20 +82,35 @@ trap(struct trapframe *tf)
     lapiceoi();
     break;
   case T_PGFLT: // CS 153, the whole case statement
-    uint addrAccessed = rcr2(); // the address that was accessed and caused a page fault
+    {
+    int addrAccessed;
+    addrAccessed = rcr2(); // the address that was accessed and caused a page fault
     
     if (((PGROUNDUP(myproc()->stackSpot)/PGSIZE) - myproc()->stackSize) != (PGROUNDUP(addrAccessed)/PGSIZE))
-    {// error
-      goto default;
+    {// error // default code
+      if(myproc() == 0 || (tf->cs&3) == 0){
+      // In kernel, it must be our mistake.
+      cprintf("unexpected trap %d from cpu %d eip %x (cr2=0x%x)\n",
+              tf->trapno, cpuid(), tf->eip, rcr2());
+      panic("trap");
+    }
+    // In user space, assume process misbehaved.
+    cprintf("pid %d %s: trap %d err %d on cpu %d "
+            "eip 0x%x addr 0x%x--kill proc\n",
+            myproc()->pid, myproc()->name, tf->trapno,
+            tf->err, cpuid(), tf->eip, rcr2());
+    myproc()->killed = 1;
     }
     // address was right underneath the stack
-    if(allocuvm(myproc()->pgdir, (PGROUNDUP(myproc()->stackSpot)/PGSIZE) - ((myproc()->stackSize)*PGSIZE - PGSIZE)), ((PGROUNDUP(myproc()->stackSpot)/PGSIZE) - (myproc()->stackSize)*PGSIZE)) == 0) // CS 153
+    
+    if(allocuvm(myproc()->pgdir, ((PGROUNDUP(myproc()->stackSpot)/PGSIZE) - myproc()->stackSize)*PGSIZE - PGSIZE, ((PGROUNDUP(myproc()->stackSpot)/PGSIZE) - myproc()->stackSize)*PGSIZE) == 0) // CS 153
     { 
       printf("There is not enough room for the page\n");
     }
     myproc()->stackSize++;
+  
     break;
-
+  }
   //PAGEBREAK: 13
   default:
     if(myproc() == 0 || (tf->cs&3) == 0){
