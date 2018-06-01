@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
    int pid=0;
    pid=fork();
    if(pid==0){
-       fib(27);
+       fib(100);
        exit();
    }
    wait();
