@@ -197,6 +197,8 @@ fork(void)
     return -1;
   }
   np->sz = curproc->sz;
+  np->stackSpot = curproc->stackSpot; // CS 153
+  np->stackSize = curproc->stackSize; // CS 153
   np->parent = curproc;
   *np->tf = *curproc->tf;
 
