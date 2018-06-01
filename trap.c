@@ -7,6 +7,10 @@
 #include "x86.h"
 #include "traps.h"
 #include "spinlock.h"
+#include "stdio.h"
+//#include <iostream>
+
+//using namespace std;
 
 // Interrupt descriptor table (shared by all CPUs).
 struct gatedesc idt[256];
@@ -76,6 +80,20 @@ trap(struct trapframe *tf)
     cprintf("cpu%d: spurious interrupt at %x:%x\n",
             cpuid(), tf->cs, tf->eip);
     lapiceoi();
+    break;
+  case T_PGFLT: // CS 153, the whole case statement
+    uint addrAccessed = rcr2(); // the address that was accessed and caused a page fault
+    
+    if (((PGROUNDUP(myproc()->stackSpot)/PGSIZE) - myproc()->stackSize) != (PGROUNDUP(addrAccessed)/PGSIZE))
+    {// error
+      goto default;
+    }
+    // address was right underneath the stack
+    if(allocuvm(myproc()->pgdir, (PGROUNDUP(myproc()->stackSpot)/PGSIZE) - myproc()->stackSize)*PGSIZE - PGSIZE, (PGROUNDUP(myproc()->stackSpot)/PGSIZE) - myproc()->stackSize)*PGSIZE) == 0) // CS 153
+    { 
+      printf("There is not enough room for the page\n");
+    }
+    myproc()->stackSize++;
     break;
 
   //PAGEBREAK: 13
