@@ -37,7 +37,7 @@ fetchstr(uint addr, char **pp)
   if(addr >= KERNBASE) // CS 153
     return -1;
   *pp = (char*)addr;
-  ep = (char*)curproc->stackSpot; // CS 153
+  ep = (char*)curproc->sz; // CS 153
   for(s = *pp; s < ep; s++){
     if(*s == 0)
       return s - *pp;
