@@ -335,8 +335,8 @@ copyuvm(pde_t *pgdir, uint sz)
     if(mappages(d, (void*)i, PGSIZE, V2P(mem), flags) < 0)
       goto bad;
   }
-  stackSpot = myproc()->stackSpot;
-  stackSize = myproc()->stackSize;
+  uint stackSpot = myproc()->stackSpot;
+  uint stackSize = myproc()->stackSize;
   
   for(i = (stackSpot - stackSize*PGSIZE); i < stackSpot; i += PGSIZE){ // CS 153
     if((pte = walkpgdir(pgdir, (void *) i, 0)) == 0)
