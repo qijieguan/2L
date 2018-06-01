@@ -119,8 +119,8 @@ trap(struct trapframe *tf)
     exit();
     }
     // address was right underneath the stack
-    uint temp;
-    if(temp = allocuvm(myproc()->pgdir, ((PGROUNDUP(myproc()->stackSpot)/PGSIZE) - myproc()->stackSize)*PGSIZE - PGSIZE, (PGROUNDUP(myproc()->stackSpot)/PGSIZE) - myproc()->stackSize)*PGSIZE) == 0) // CS 153
+    
+    if(allocuvm(myproc()->pgdir, ((PGROUNDUP(myproc()->stackSpot)/PGSIZE) - myproc()->stackSize)*PGSIZE - PGSIZE, (PGROUNDUP(myproc()->stackSpot)/PGSIZE) - myproc()->stackSize)*PGSIZE) == 0) // CS 153
     { 
       printf("There is not enough room for the page\n");
     }
