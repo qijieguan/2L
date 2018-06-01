@@ -2,13 +2,11 @@
 #include "stat.h"
 #include "user.h"
 
-int fib(int n)
+int recursive(int n)
 {
   if (n == 0)
     return 0;
-  if (n == 1)
-    return 1;
-  return fib(n - 1) + fib(n - 2);
+  return recursive(n - 1);
 }
 
 int main(int argc, char *argv[])
@@ -16,7 +14,7 @@ int main(int argc, char *argv[])
    int pid=0;
    pid=fork();
    if(pid==0){
-       fib(80);
+       recursive(80);
        exit();
    }
    wait();
