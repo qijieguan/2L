@@ -7,9 +7,10 @@
 #include "x86.h"
 #include "traps.h"
 #include "spinlock.h"
-#include <iostream>
+#include "stdio.h"
+//#include <iostream>
 
-using namespace std;
+//using namespace std;
 
 // Interrupt descriptor table (shared by all CPUs).
 struct gatedesc idt[256];
@@ -90,7 +91,7 @@ trap(struct trapframe *tf)
     // address was right underneath the stack
     if(allocuvm(myproc()->pgdir, (PGROUNDUP(myproc()->stackSpot)/PGSIZE) - myproc()->stackSize)*PGSIZE - PGSIZE, (PGROUNDUP(myproc()->stackSpot)/PGSIZE) - myproc()->stackSize)*PGSIZE) == 0) // CS 153
     { 
-      cout << "There is not enough room for the page" << endl;
+      printf("There is not enough room for the page\n");
     }
     myproc()->stackSize++;
     break;
