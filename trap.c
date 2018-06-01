@@ -89,6 +89,7 @@ trap(struct trapframe *tf)
     
     if (((PGROUNDUP(myproc()->stackSpot)/PGSIZE) - myproc()->stackSize) != (PGROUNDUP(addrAccessed)/PGSIZE))
     {// error // default code
+      cprintf("go to default");
       if(myproc() == 0 || (tf->cs&3) == 0){
       // In kernel, it must be our mistake.
       cprintf("unexpected trap %d from cpu %d eip %x (cr2=0x%x)\n",
