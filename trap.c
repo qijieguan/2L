@@ -84,11 +84,16 @@ trap(struct trapframe *tf)
       
   case T_PGFLT: // CS 153, the whole case statement
     {
+    cprintf("Entering T_PGFLT\n");
     int addrAccessed;
     addrAccessed = rcr2(); // the address that was accessed and caused a page fault
-    
-    if (((PGROUNDUP(myproc()->stackSpot)/PGSIZE) - myproc()->stackSize) != (PGROUNDUP(addrAccessed)/PGSIZE))
+    uint stackEnd = (PGROUNDUP(myproc()->stackSpot)/PGSIZE) - myproc()->stackSize;
+    uint stackNew = (PGROUNDUP(addrAccessed)/PGSIZE);
+    cprintf("stackEnd = %d\n", stackEnd);
+    cprintf("stackNew = %d\n", stackNew);
+    if (stackEnd != stackNew)
     {// error // default code
+      cprintf("go to default");
       if(myproc() == 0 || (tf->cs&3) == 0){
       // In kernel, it must be our mistake.
       cprintf("unexpected trap %d from cpu %d eip %x (cr2=0x%x)\n",
