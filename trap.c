@@ -109,6 +109,7 @@ trap(struct trapframe *tf)
       cprintf("There is not enough room for the page\n");
     }
     myproc()->stackSize++;
+    cprintf("A page was added to the stack.\n");
   
     break;
   }
