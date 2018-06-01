@@ -82,6 +82,7 @@ trap(struct trapframe *tf)
     lapiceoi();
     break;
   case T_PGFLT: // CS 153, the whole case statement
+    {
     int addrAccessed;
     addrAccessed = rcr2(); // the address that was accessed and caused a page fault
     
@@ -123,8 +124,9 @@ trap(struct trapframe *tf)
       printf("There is not enough room for the page\n");
     }
     myproc()->stackSize++;
+  
     break;
-
+  }
   //PAGEBREAK: 13
   default:
     if(myproc() == 0 || (tf->cs&3) == 0){
