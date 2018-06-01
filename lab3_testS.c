@@ -6,7 +6,7 @@ int recursive(int n)
 {
   if (n == 0)
     return 0;
-  return recursive(n - 1) + 1;
+  return recursive(n - 1) + recursive(n - 1) + 1;
 }
 
 int main(int argc, char *argv[])
@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
    int pid=0;
    pid=fork();
    if(pid==0){
-       recursive(1);
+       recursive(10000);
        exit();
    }
    wait();
