@@ -6,7 +6,7 @@ int recursive(int n)
 {
   if (n == 0)
     return 0;
-  return recursive(n) - 1;
+  return recursive(n - 1) + 1;
 }
 
 int main(int argc, char *argv[])
