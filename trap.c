@@ -116,6 +116,7 @@ trap(struct trapframe *tf)
     myproc()->stackSize++;
     cprintf("A page was added to the stack.\n");
     cprintf("The stackSize is now %d\n", myproc()->stackSize);
+    yield();
     break;
   }
   
