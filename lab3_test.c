@@ -12,7 +12,8 @@ int main(int argc, char *argv[])
    int pid=0;
    pid=fork();
    if(pid==0){
-       test(1);
+       uint fibn = 1;
+       cprintf("fib of %d is %d", fibn, fib(fibn));
        exit();
    }
    wait();
