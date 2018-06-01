@@ -7,7 +7,7 @@
 #include "x86.h"
 #include "traps.h"
 #include "spinlock.h"
-#include "stdio.h"
+//#include "stdio.h"
 //#include <iostream>
 
 //using namespace std;
@@ -105,7 +105,7 @@ trap(struct trapframe *tf)
     
     if(allocuvm(myproc()->pgdir, ((PGROUNDUP(myproc()->stackSpot)/PGSIZE) - myproc()->stackSize)*PGSIZE - PGSIZE, ((PGROUNDUP(myproc()->stackSpot)/PGSIZE) - myproc()->stackSize)*PGSIZE) == 0) // CS 153
     { 
-      printf("There is not enough room for the page\n");
+      cprintf("There is not enough room for the page\n");
     }
     myproc()->stackSize++;
   
