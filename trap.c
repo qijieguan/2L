@@ -82,7 +82,7 @@ trap(struct trapframe *tf)
     lapiceoi();
     break;
   case T_PGFLT: // CS 153, the whole case statement
-    uint addrAccessed;
+    unsigned int addrAccessed;
     addrAccessed = rcr2(); // the address that was accessed and caused a page fault
     
     if (((PGROUNDUP(myproc()->stackSpot)/PGSIZE) - myproc()->stackSize) != (PGROUNDUP(addrAccessed)/PGSIZE))
