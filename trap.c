@@ -85,10 +85,9 @@ trap(struct trapframe *tf)
   case T_PGFLT: // CS 153, the whole case statement
     {
     cprintf("Entering T_PGFLT\n");
-    int addrAccessed;
-    addrAccessed = rcr2(); // the address that was accessed and caused a page fault
+    
     uint stackEnd = (PGROUNDUP(myproc()->stackSpot)/PGSIZE) - myproc()->stackSize;
-    uint stackNew = (PGROUNDUP(addrAccessed)/PGSIZE);
+    uint stackNew = (PGROUNDUP(rcr2())/PGSIZE);
     cprintf("stackEnd = %d\n", stackEnd);
     cprintf("stackNew = %d\n", stackNew);
     if (stackEnd != stackNew)
