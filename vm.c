@@ -340,9 +340,9 @@ copyuvm(pde_t *pgdir, uint sz)
   
   for(i = (stackSpot - stackSize*PGSIZE); i < stackSpot; i += PGSIZE){ // CS 153
     if((pte = walkpgdir(pgdir, (void *) i, 0)) == 0)
-      panic("copyuvm: pte should exist");
+      panic("copyuvm: pte should exist 2");
     if(!(*pte & PTE_P))
-      panic("copyuvm: page not present");
+      panic("copyuvm: page not present 2");
     pa = PTE_ADDR(*pte);
     flags = PTE_FLAGS(*pte);
     if((mem = kalloc()) == 0)
