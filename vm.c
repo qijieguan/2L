@@ -338,7 +338,7 @@ copyuvm(pde_t *pgdir, uint sz)
   uint stackSpot = myproc()->stackSpot;
   uint stackSize = myproc()->stackSize;
   
-  for(i = PGROUNDDOWN(stackSpot - stackSize*PGSIZE); i < stackSpot; i += PGSIZE){ // CS 153
+  for(i = PGROUNDDOWN(stackSpot - stackSize*PGSIZE + 1); i < stackSpot; i += PGSIZE){ // CS 153
     cprintf(" i is equal to %d\n",i);
     if((pte = walkpgdir(pgdir, (void *) i, 0)) == 0)
       panic("copyuvm: pte should exist 2");
