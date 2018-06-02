@@ -85,12 +85,13 @@ trap(struct trapframe *tf)
   case T_PGFLT: // CS 153, the whole case statement
     {
     cprintf("Entering T_PGFLT\n");
-    int addrAccessed;
-    addrAccessed = rcr2(); // the address that was accessed and caused a page fault
+    
     uint stackEnd = (PGROUNDUP(myproc()->stackSpot)/PGSIZE) - myproc()->stackSize;
-    uint stackNew = (PGROUNDUP(addrAccessed)/PGSIZE);
+    uint stackNew = (PGROUNDUP(rcr2())/PGSIZE);
     cprintf("stackEnd = %d\n", stackEnd);
     cprintf("stackNew = %d\n", stackNew);
+    cprintf("rcr2() = %d\n", rcr2());
+
     if (stackEnd != stackNew)
     {// error // default code
       cprintf("go to default");
@@ -106,16 +107,18 @@ trap(struct trapframe *tf)
             myproc()->pid, myproc()->name, tf->trapno,
             tf->err, cpuid(), tf->eip, rcr2());
     myproc()->killed = 1;
+      break;
     }
     // address was right underneath the stack
     
-    if(allocuvm(myproc()->pgdir, ((PGROUNDUP(myproc()->stackSpot)/PGSIZE) - myproc()->stackSize)*PGSIZE - PGSIZE + 1, ((PGROUNDUP(myproc()->stackSpot)/PGSIZE) - myproc()->stackSize)*PGSIZE) == 0) // CS 153
+    if(allocuvm(myproc()->pgdir, ((PGROUNDUP(myproc()->stackSpot)/PGSIZE) - myproc()->stackSize)*PGSIZE - PGSIZE, ((PGROUNDUP(myproc()->stackSpot)/PGSIZE) - myproc()->stackSize)*PGSIZE) == 0) // CS 153
     { 
       cprintf("There is not enough room for the page\n");
     }
     myproc()->stackSize++;
     cprintf("A page was added to the stack.\n");
-  
+    cprintf("The stackSize is now %d\n", myproc()->stackSize);
+    
     break;
   }
   
