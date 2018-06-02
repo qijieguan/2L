@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
    int pid=0;
    pid=fork();
    if(pid==0){
-       recursive(100);
+       recursive(200);
        exit();
    }
    wait();
